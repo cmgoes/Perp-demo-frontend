@@ -5,6 +5,7 @@ import { Amm as AmmType } from "constant/amm"
 import { Amm } from "container/amm"
 
 function MarketSelector() {
+    const NFTList = ["Azuki", "Bored Ape Yacht Club", "Cryptopunks"];
     const { isLoading: isLoadingAmmMap, ammMap, setSelectedAmm } = Amm.useContainer();
     console.log("Load", Amm.useContainer());
 
@@ -12,7 +13,7 @@ function MarketSelector() {
         if (!ammMap) {
             return []
         }
-        return Object.values(ammMap).sort((a, b) => a.baseAssetSymbol.localeCompare(b.baseAssetSymbol))
+        return Object.values(ammMap).slice(0, 3).sort((a, b) => a.baseAssetSymbol.localeCompare(b.baseAssetSymbol))
     }, [ammMap])
 
     useEffect(() => {
@@ -39,7 +40,7 @@ function MarketSelector() {
             <Select onChange={handleOnChange} isDisabled={isLoadingAmmMap}>
                 {sortedAmmList.map((amm: AmmType, index: number) => (
                     <option key={`${amm.baseAssetSymbol}-${amm.quoteAssetSymbol}`} value={index}>
-                        {amm.baseAssetSymbol} / {amm.quoteAssetSymbol}
+                        {NFTList[index]} / ETH
                     </option>
                 ))}
             </Select>
